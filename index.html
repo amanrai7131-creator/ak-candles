@@ -115,11 +115,21 @@
     }
 
     .product-img {
-      height: 150px;
+      height: 170px;
       background: #ead9bd;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .emoji-img {
       font-size: 55px;
     }
 
@@ -128,13 +138,61 @@
     }
 
     .product-info h3 {
-      font-size: 16px;
+      font-size: 17px;
       margin-bottom: 7px;
+    }
+
+    .description {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 9px;
+      line-height: 1.4;
     }
 
     .price {
       font-weight: bold;
       color: #9a6b18;
+      font-size: 18px;
+    }
+
+    .old-price {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 13px;
+      margin-left: 5px;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: #777;
+      margin-top: 7px;
+    }
+
+    .order-btn {
+      display: block;
+      margin-top: 12px;
+      background: #17130f;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .loading {
+      text-align: center;
+      grid-column: 1 / -1;
+      padding: 30px;
+      color: #777;
+    }
+
+    .error {
+      text-align: center;
+      grid-column: 1 / -1;
+      padding: 25px;
+      color: #a33;
     }
 
     .why {
@@ -152,6 +210,17 @@
       padding: 18px;
       border: 1px solid #6d5844;
       border-radius: 12px;
+    }
+
+    .about {
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.7;
+      color: #555;
     }
 
     .offer {
@@ -177,6 +246,7 @@
       text-decoration: none;
       font-weight: bold;
       box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+      z-index: 20;
     }
 
     @media (min-width: 700px) {
@@ -186,6 +256,10 @@
 
       .categories {
         grid-template-columns: repeat(4, 1fr);
+      }
+
+      .why-box {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
   </style>
@@ -235,43 +309,13 @@
 
   <section id="shop">
 
-    <h2 class="title">Best Sellers</h2>
+    <h2 class="title">Our Candles</h2>
 
-    <div class="products">
+    <!-- Products will load automatically from Supabase -->
+    <div class="products" id="products">
 
-      <div class="product">
-        <div class="product-img">🕯️</div>
-        <div class="product-info">
-          <h3>Vanilla Glow</h3>
-          <p class="price">₹299</p>
-        </div>
-      </div>
-
-
-      <div class="product">
-        <div class="product-img">🌹</div>
-        <div class="product-info">
-          <h3>Rose Love</h3>
-          <p class="price">₹349</p>
-        </div>
-      </div>
-
-
-      <div class="product">
-        <div class="product-img">🌿</div>
-        <div class="product-info">
-          <h3>Lavender Calm</h3>
-          <p class="price">₹399</p>
-        </div>
-      </div>
-
-
-      <div class="product">
-        <div class="product-img">✨</div>
-        <div class="product-info">
-          <h3>Luxury Gold</h3>
-          <p class="price">₹499</p>
-        </div>
+      <div class="loading">
+        🕯️ Loading candles...
       </div>
 
     </div>
@@ -286,23 +330,276 @@
     <div class="why-box">
 
       <div class="why-item">
-        🕯️<br>
+        🕯️<br><br>
         <strong>Premium Quality</strong>
         <p>Carefully crafted candles.</p>
       </div>
 
       <div class="why-item">
-        🌸<br>
+        🌸<br><br>
         <strong>Beautiful Fragrances</strong>
         <p>Made to create a beautiful atmosphere.</p>
       </div>
 
       <div class="why-item">
-        📦<br>
+        📦<br><br>
         <strong>Safe Delivery</strong>
         <p>We carefully pack every order.</p>
       </div>
 
     </div>
 
-  </section
+  </section>
+
+
+  <section class="about" id="about">
+
+    <h2 class="title">About AK Candles</h2>
+
+    <p>
+      At AK Candles, we create beautiful and fragrant candles
+      designed to make your everyday moments warmer, calmer
+      and more special.
+    </p>
+
+  </section>
+
+
+  <section class="offer">
+
+    <h2>✨ Make Every Moment Special ✨</h2>
+
+    <p style="margin:15px 0;">
+      Discover your perfect candle today.
+    </p>
+
+    <a href="#shop" class="btn">EXPLORE CANDLES</a>
+
+  </section>
+
+
+  <footer id="contact">
+
+    <h3>🕯️ AK CANDLES</h3>
+
+    <p style="margin-top:10px;">
+      Light Your Moment
+    </p>
+
+    <p style="margin-top:15px; font-size:13px;">
+      © 2026 AK Candles. All Rights Reserved.
+    </p>
+
+  </footer>
+
+
+  <a
+    class="whatsapp"
+    href="https://wa.me/?text=Hello%20AK%20Candles"
+    target="_blank"
+  >
+    💬 WhatsApp
+  </a>
+
+
+  <script>
+
+    // ==========================================
+    // SUPABASE CONNECTION
+    // ==========================================
+
+    const SUPABASE_URL =
+      "https://xgmgrwsszjbifoxclwta.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP";
+
+
+    // ==========================================
+    // LOAD PRODUCTS
+    // ==========================================
+
+    async function loadProducts() {
+
+      const container = document.getElementById("products");
+
+      try {
+
+        const response = await fetch(
+          SUPABASE_URL +
+          "/rest/v1/products?select=*&is_active=eq.true&order=is_featured.desc,created_at.desc",
+          {
+            method: "GET",
+
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization": "Bearer " + SUPABASE_KEY
+            }
+          }
+        );
+
+
+        if (!response.ok) {
+          throw new Error("Could not load products");
+        }
+
+
+        const products = await response.json();
+
+
+        if (!products.length) {
+
+          container.innerHTML = `
+            <div class="loading">
+              🕯️ No candles available right now.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        products.forEach(product => {
+
+          const image = product.image_url
+            ? `
+              <img
+                src="${product.image_url}"
+                alt="${product.name || "AK Candle"}"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+              >
+              <span class="emoji-img" style="display:none;">🕯️</span>
+            `
+            : `
+              <span class="emoji-img">🕯️</span>
+            `;
+
+
+          const comparePrice =
+            product.compare_price &&
+            Number(product.compare_price) > Number(product.price)
+              ? `<span class="old-price">₹${product.compare_price}</span>`
+              : "";
+
+
+          const fragrance =
+            product.fragrance
+              ? `🌸 ${product.fragrance}`
+              : "";
+
+
+          const size =
+            product.size
+              ? `📏 ${product.size}`
+              : "";
+
+
+          const stock =
+            Number(product.stock) > 0
+              ? `📦 In Stock`
+              : `❌ Out of Stock`;
+
+
+          const whatsappMessage =
+            encodeURIComponent(
+              `Hello AK Candles 👋\n\nI want to order:\n${product.name}\nPrice: ₹${product.price}\nSKU: ${product.sku || "N/A"}`
+            );
+
+
+          const card = document.createElement("div");
+
+          card.className = "product";
+
+
+          card.innerHTML = `
+
+            <div class="product-img">
+              ${image}
+            </div>
+
+            <div class="product-info">
+
+              <h3>
+                ${product.name || "AK Candle"}
+              </h3>
+
+              ${
+                product.description
+                  ? `<p class="description">${product.description}</p>`
+                  : ""
+              }
+
+              <div>
+                <span class="price">
+                  ₹${product.price || "0"}
+                </span>
+
+                ${comparePrice}
+              </div>
+
+              <div class="meta">
+                ${fragrance}
+                ${size}
+              </div>
+
+              <div class="meta">
+                ${stock}
+              </div>
+
+              ${
+                Number(product.stock) > 0
+                  ? `
+                    <a
+                      class="order-btn"
+                      href="https://wa.me/?text=${whatsappMessage}"
+                      target="_blank"
+                    >
+                      💬 Order on WhatsApp
+                    </a>
+                  `
+                  : `
+                    <div
+                      class="order-btn"
+                      style="background:#999;"
+                    >
+                      Out of Stock
+                    </div>
+                  `
+              }
+
+            </div>
+          `;
+
+
+          container.appendChild(card);
+
+        });
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+          <div class="error">
+            ❌ Products load nahi ho sake.<br>
+            Please try again later.
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    // Start loading products
+    loadProducts();
+
+  </script>
+
+</body>
+</html>
