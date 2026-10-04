@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AK Candles | Light Your Moment</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #faf7f0;
+      color: #211b16;
+    }
+
+    header {
+      background: #17130f;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 70px 22px;
+      text-align: center;
+      background: linear-gradient(135deg, #211b16, #4b3525);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      margin-bottom: 25px;
+      color: #eee0c8;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #d6a84f;
+      color: #17130f;
+      padding: 13px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 45px 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 27px;
+      margin-bottom: 28px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .category {
+      background: white;
+      padding: 25px 10px;
+      text-align: center;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      font-size: 17px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .product-img {
+      height: 150px;
+      background: #ead9bd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+    }
+
+    .product-info {
+      padding: 13px;
+    }
+
+    .product-info h3 {
+      font-size: 16px;
+      margin-bottom: 7px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #9a6b18;
+    }
+
+    .why {
+      background: #211b16;
+      color: white;
+      text-align: center;
+    }
+
+    .why-box {
+      display: grid;
+      gap: 15px;
+    }
+
+    .why-item {
+      padding: 18px;
+      border: 1px solid #6d5844;
+      border-radius: 12px;
+    }
+
+    .offer {
+      text-align: center;
+      background: #ead9bd;
+    }
+
+    footer {
+      background: #17130f;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .whatsapp {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #25d366;
+      color: white;
+      padding: 13px 17px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+
+    @media (min-width: 700px) {
+      .products {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .categories {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🕯️ AK CANDLES</div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+
+  <section class="hero">
+    <h1>Light Your Moment</h1>
+
+    <p>
+      Premium candles crafted to make every moment special.
+    </p>
+
+    <a href="#shop" class="btn">SHOP NOW</a>
+  </section>
+
+
+  <section>
+    <h2 class="title">Shop By Category</h2>
+
+    <div class="categories">
+
+      <div class="category">🌹<br>Scented Candles</div>
+
+      <div class="category">🎁<br>Gift Candles</div>
+
+      <div class="category">❤️<br>Romantic</div>
+
+      <div class="category">✨<br>Special Occasion</div>
+
+    </div>
+  </section>
+
+
+  <section id="shop">
+
+    <h2 class="title">Best Sellers</h2>
+
+    <div class="products">
+
+      <div class="product">
+        <div class="product-img">🕯️</div>
+        <div class="product-info">
+          <h3>Vanilla Glow</h3>
+          <p class="price">₹299</p>
+        </div>
+      </div>
+
+
+      <div class="product">
+        <div class="product-img">🌹</div>
+        <div class="product-info">
+          <h3>Rose Love</h3>
+          <p class="price">₹349</p>
+        </div>
+      </div>
+
+
+      <div class="product">
+        <div class="product-img">🌿</div>
+        <div class="product-info">
+          <h3>Lavender Calm</h3>
+          <p class="price">₹399</p>
+        </div>
+      </div>
+
+
+      <div class="product">
+        <div class="product-img">✨</div>
+        <div class="product-info">
+          <h3>Luxury Gold</h3>
+          <p class="price">₹499</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="why">
+
+    <h2 class="title">Why Choose AK Candles?</h2>
+
+    <div class="why-box">
+
+      <div class="why-item">
+        🕯️<br>
+        <strong>Premium Quality</strong>
+        <p>Carefully crafted candles.</p>
+      </div>
+
+      <div class="why-item">
+        🌸<br>
+        <strong>Beautiful Fragrances</strong>
+        <p>Made to create a beautiful atmosphere.</p>
+      </div>
+
+      <div class="why-item">
+        📦<br>
+        <strong>Safe Delivery</strong>
+        <p>We carefully pack every order.</p>
+      </div>
+
+    </div>
+
+  </section
