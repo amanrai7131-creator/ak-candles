@@ -15,7 +15,7 @@
 }
 
 body{
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#f8f4ee;
   color:#211b16;
 }
@@ -403,6 +403,7 @@ footer p{
   section{
     padding:35px 15px;
   }
+
 }
 
 </style>
@@ -420,14 +421,26 @@ footer p{
     </div>
 
     <nav>
+
       <a href="#home">Home</a>
+
       <a href="#shop">Shop</a>
+
       <a href="#about">About</a>
 
-      <button class="cart-btn" onclick="openCart()">
+      <button
+        class="cart-btn"
+        onclick="openCart()">
+
         🛒 Cart
-        <span class="cart-count" id="cartCount">0</span>
+        <span
+          class="cart-count"
+          id="cartCount">
+          0
+        </span>
+
       </button>
+
     </nav>
 
   </div>
@@ -437,16 +450,24 @@ footer p{
 
 <!-- HERO -->
 
-<section class="hero" id="home">
+<section
+  class="hero"
+  id="home">
 
-  <h1>Light Your Moment ✨</h1>
+  <h1>
+    Light Your Moment ✨
+  </h1>
 
   <p>
     Beautiful fragrances. Beautiful moments.
   </p>
 
-  <a href="#shop" class="btn">
+  <a
+    href="#shop"
+    class="btn">
+
     Explore Candles
+
   </a>
 
 </section>
@@ -495,7 +516,9 @@ footer p{
     Our Candles
   </h2>
 
-  <div id="products" class="products">
+  <div
+    id="products"
+    class="products">
 
     <div class="loading">
       🕯️ Loading candles...
@@ -508,7 +531,9 @@ footer p{
 
 <!-- ABOUT -->
 
-<section class="about" id="about">
+<section
+  class="about"
+  id="about">
 
   <h2>
     About AK Candles
@@ -535,8 +560,12 @@ footer p{
     Discover your perfect candle today.
   </p>
 
-  <a href="#shop" class="btn">
+  <a
+    href="#shop"
+    class="btn">
+
     Shop Now
+
   </a>
 
 </section>
@@ -563,7 +592,9 @@ footer p{
 
 <!-- CART -->
 
-<div class="cart-overlay" id="cartOverlay">
+<div
+  class="cart-overlay"
+  id="cartOverlay">
 
   <div class="cart-panel">
 
@@ -576,20 +607,22 @@ footer p{
       <button
         class="close-cart"
         onclick="closeCart()">
+
         ×
+
       </button>
 
     </div>
 
-
     <div id="cartItems"></div>
-
 
     <div id="cartBottom">
 
       <div class="cart-total">
 
-        <span>Total</span>
+        <span>
+          Total
+        </span>
 
         <span id="cartTotal">
           ₹0
@@ -648,12 +681,21 @@ async function loadProducts(){
           "apikey":SUPABASE_KEY,
           "Authorization":"Bearer " + SUPABASE_KEY
         }
+
       }
 
     );
 
 
     if(!response.ok){
+
+      const errorText =
+        await response.text();
+
+      console.error(
+        "Supabase Error:",
+        errorText
+      );
 
       throw new Error(
         "Could not load products"
@@ -666,12 +708,23 @@ async function loadProducts(){
       await response.json();
 
 
+    console.log(
+      "Products:",
+      products
+    );
+
+
     if(!products.length){
 
       container.innerHTML = `
+
         <div class="loading">
-          🕯️ No candles available right now.
+
+          🕯️ No candles available
+          right now.
+
         </div>
+
       `;
 
       return;
@@ -684,36 +737,51 @@ async function loadProducts(){
 
     products.forEach(product => {
 
-      let image = product.image_url
+
+      /* PRODUCT IMAGE */
+
+      let image =
+        product.image_url
 
         ? `
+
           <img
             src="${product.image_url}"
-            alt="${product.name || "AK Candle"}"
-          >
+            alt="${product.name || "AK Candle"}">
+
         `
 
         : `
+
           <span class="emoji-img">
             🕯️
           </span>
+
         `;
 
+
+      /* COMPARE PRICE */
 
       const comparePrice =
 
         product.compare_price &&
         Number(product.compare_price) >
-        Number(product.price)
+        Number(product.Price)
 
         ? `
+
           <span class="old-price">
+
             ₹${product.compare_price}
+
           </span>
+
         `
 
         : "";
 
+
+      /* FRAGRANCE */
 
       const fragrance =
 
@@ -724,6 +792,8 @@ async function loadProducts(){
         : "";
 
 
+      /* SIZE */
+
       const size =
 
         product.size
@@ -732,6 +802,8 @@ async function loadProducts(){
 
         : "";
 
+
+      /* STOCK */
 
       const stock =
 
@@ -742,17 +814,23 @@ async function loadProducts(){
         : `🔴 Out of Stock`;
 
 
+      /* PRODUCT CARD */
+
       const card =
         document.createElement("div");
 
-      card.className = "product";
+      card.className =
+        "product";
 
 
       card.innerHTML = `
 
         <div class="product-img">
+
           ${image}
+
         </div>
+
 
         <div class="product-info">
 
@@ -760,23 +838,31 @@ async function loadProducts(){
             ${product.name || "AK Candle"}
           </h3>
 
+
           ${
             product.description
 
             ? `
+
               <p class="description">
+
                 ${product.description}
+
               </p>
+
             `
 
             : ""
+
           }
 
 
           <div>
 
             <span class="price">
-              ₹${product.price || "0"}
+
+              ₹${product.Price || "0"}
+
             </span>
 
             ${comparePrice}
@@ -803,6 +889,7 @@ async function loadProducts(){
             Number(product.stock) > 0
 
             ? `
+
               <button
                 class="order-btn add-cart-btn"
                 type="button">
@@ -810,9 +897,11 @@ async function loadProducts(){
                 🛒 Add to Cart
 
               </button>
+
             `
 
             : `
+
               <button
                 class="order-btn"
                 type="button"
@@ -822,13 +911,17 @@ async function loadProducts(){
                 ❌ Out of Stock
 
               </button>
+
             `
+
           }
 
         </div>
 
       `;
 
+
+      /* ADD TO CART BUTTON */
 
       const addCartBtn =
         card.querySelector(
@@ -847,12 +940,15 @@ async function loadProducts(){
             addCartBtn.textContent =
               "✓ Added to Cart";
 
-            setTimeout(() => {
+            setTimeout(
+              () => {
 
-              addCartBtn.textContent =
-                "🛒 Add to Cart";
+                addCartBtn.textContent =
+                  "🛒 Add to Cart";
 
-            },1200);
+              },
+              1200
+            );
 
           }
         );
@@ -869,7 +965,10 @@ async function loadProducts(){
 
   catch(error){
 
-    console.error(error);
+    console.error(
+      "Product loading error:",
+      error
+    );
 
     container.innerHTML = `
 
@@ -894,9 +993,10 @@ async function loadProducts(){
    CART
 ========================================== */
 
-let cart = JSON.parse(
-  localStorage.getItem("akCart") || "[]"
-);
+let cart =
+  JSON.parse(
+    localStorage.getItem("akCart") || "[]"
+  );
 
 
 /* SAVE CART */
@@ -940,17 +1040,28 @@ function addToCart(product){
 
     cart.push({
 
-      id:product.id,
+      id:
+        product.id,
 
-      name:product.name,
+      name:
+        product.name,
 
-      price:Number(product.price),
+      /*
+       * IMPORTANT:
+       * Supabase column is "Price"
+       */
 
-      image_url:product.image_url || "",
+      price:
+        Number(product.Price),
 
-      stock:Number(product.stock),
+      image_url:
+        product.image_url || "",
 
-      quantity:1
+      stock:
+        Number(product.stock),
+
+      quantity:
+        1
 
     });
 
@@ -966,7 +1077,9 @@ function addToCart(product){
 }
 
 
-/* UPDATE CART */
+/* ==========================================
+   UPDATE CART
+========================================== */
 
 function updateCart(){
 
@@ -975,10 +1088,12 @@ function updateCart(){
       "cartItems"
     );
 
+
   const cartCount =
     document.getElementById(
       "cartCount"
     );
+
 
   const cartTotal =
     document.getElementById(
@@ -1033,106 +1148,120 @@ function updateCart(){
   }
 
 
-  let total = 0;
+  let total =
+    0;
 
 
-  cartItems.innerHTML = "";
+  cartItems.innerHTML =
+    "";
 
 
-  cart.forEach((item,index) => {
-
-    total +=
-      item.price *
-      item.quantity;
+  cart.forEach(
+    (item,index) => {
 
 
-    const image =
-      item.image_url
+      total +=
+        item.price *
+        item.quantity;
 
-      ? `
-        <img
-          src="${item.image_url}"
-          alt="${item.name}"
-        >
-      `
 
-      : `
-        <div
-          style="
-          width:70px;
-          height:70px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:#ead9bd;
-          border-radius:10px;
-          font-size:35px;">
-          🕯️
+      const image =
+        item.image_url
+
+        ? `
+
+          <img
+            src="${item.image_url}"
+            alt="${item.name}">
+
+        `
+
+        : `
+
+          <div
+            style="
+            width:70px;
+            height:70px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#ead9bd;
+            border-radius:10px;
+            font-size:35px;">
+
+            🕯️
+
+          </div>
+
+        `;
+
+
+      cartItems.innerHTML += `
+
+        <div class="cart-item">
+
+          ${image}
+
+
+          <div class="cart-item-info">
+
+            <div class="cart-item-name">
+
+              ${item.name}
+
+            </div>
+
+
+            <div class="cart-item-price">
+
+              ₹${item.price}
+
+            </div>
+
+
+            <div class="quantity">
+
+              <button
+                onclick="changeQuantity(${index},-1)">
+
+                −
+
+              </button>
+
+
+              <span>
+
+                ${item.quantity}
+
+              </span>
+
+
+              <button
+                onclick="changeQuantity(${index},1)">
+
+                +
+
+              </button>
+
+            </div>
+
+
+            <button
+              class="remove"
+              onclick="removeFromCart(${index})">
+
+              Remove
+
+            </button>
+
+          </div>
+
         </div>
+
       `;
 
-
-    cartItems.innerHTML += `
-
-      <div class="cart-item">
-
-        ${image}
-
-        <div class="cart-item-info">
-
-          <div class="cart-item-name">
-
-            ${item.name}
-
-          </div>
-
-          <div class="cart-item-price">
-
-            ₹${item.price}
-
-          </div>
-
-
-          <div class="quantity">
-
-            <button
-              onclick="changeQuantity(${index},-1)">
-
-              −
-
-            </button>
-
-
-            <span>
-              ${item.quantity}
-            </span>
-
-
-            <button
-              onclick="changeQuantity(${index},1)">
-
-              +
-
-            </button>
-
-          </div>
-
-
-          <button
-            class="remove"
-            onclick="removeFromCart(${index})">
-
-            Remove
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
+    }
+  );
 
 
   cartTotal.textContent =
@@ -1141,7 +1270,9 @@ function updateCart(){
 }
 
 
-/* CHANGE QUANTITY */
+/* ==========================================
+   CHANGE QUANTITY
+========================================== */
 
 function changeQuantity(
   index,
@@ -1152,13 +1283,21 @@ function changeQuantity(
     cart[index];
 
 
+  if(!item){
+    return;
+  }
+
+
   const newQuantity =
     item.quantity + change;
 
 
   if(newQuantity <= 0){
 
-    cart.splice(index,1);
+    cart.splice(
+      index,
+      1
+    );
 
   }
 
@@ -1180,11 +1319,16 @@ function changeQuantity(
 }
 
 
-/* REMOVE */
+/* ==========================================
+   REMOVE PRODUCT
+========================================== */
 
 function removeFromCart(index){
 
-  cart.splice(index,1);
+  cart.splice(
+    index,
+    1
+  );
 
   saveCart();
 
@@ -1193,31 +1337,45 @@ function removeFromCart(index){
 }
 
 
-/* OPEN CART */
+/* ==========================================
+   OPEN CART
+========================================== */
 
 function openCart(){
 
   document
-    .getElementById("cartOverlay")
-    .classList.add("show");
+    .getElementById(
+      "cartOverlay"
+    )
+    .classList.add(
+      "show"
+    );
 
   updateCart();
 
 }
 
 
-/* CLOSE CART */
+/* ==========================================
+   CLOSE CART
+========================================== */
 
 function closeCart(){
 
   document
-    .getElementById("cartOverlay")
-    .classList.remove("show");
+    .getElementById(
+      "cartOverlay"
+    )
+    .classList.remove(
+      "show"
+    );
 
 }
 
 
-/* CHECKOUT */
+/* ==========================================
+   CHECKOUT
+========================================== */
 
 function goToCheckout(){
 
@@ -1239,10 +1397,14 @@ function goToCheckout(){
 }
 
 
-/* CLOSE WHEN CLICK OUTSIDE */
+/* ==========================================
+   CLOSE CART OUTSIDE
+========================================== */
 
 document
-  .getElementById("cartOverlay")
+  .getElementById(
+    "cartOverlay"
+  )
   .addEventListener(
     "click",
     function(event){
@@ -1260,7 +1422,9 @@ document
   );
 
 
-/* INITIAL */
+/* ==========================================
+   INITIAL
+========================================== */
 
 updateCart();
 
