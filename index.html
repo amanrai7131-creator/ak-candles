@@ -1,604 +1,1272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AK Candles | Light Your Moment</title>
+<title>AK Candles | Light Your Moment</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #faf7f0;
-      color: #211b16;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    header {
-      background: #17130f;
-      color: white;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+body{
+  font-family:Arial, sans-serif;
+  background:#f8f4ee;
+  color:#211b16;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+header{
+  background:#211b16;
+  color:white;
+  padding:16px 20px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 2px 10px rgba(0,0,0,.2);
+}
 
-    nav {
-      display: flex;
-      gap: 15px;
-      font-size: 14px;
-    }
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-    }
+.logo{
+  font-size:23px;
+  font-weight:bold;
+  color:#e6b85c;
+}
 
-    .hero {
-      padding: 70px 22px;
-      text-align: center;
-      background: linear-gradient(135deg, #211b16, #4b3525);
-      color: white;
-    }
+nav{
+  display:flex;
+  gap:18px;
+  align-items:center;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
+nav a{
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+}
 
-    .hero p {
-      font-size: 17px;
-      margin-bottom: 25px;
-      color: #eee0c8;
-    }
+.cart-btn{
+  background:#e6b85c;
+  color:#211b16;
+  border:0;
+  padding:10px 14px;
+  border-radius:20px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .btn {
-      display: inline-block;
-      background: #d6a84f;
-      color: #17130f;
-      padding: 13px 25px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.cart-count{
+  background:#211b16;
+  color:white;
+  padding:2px 6px;
+  border-radius:50%;
+  margin-left:4px;
+}
 
-    section {
-      padding: 45px 20px;
-    }
+.hero{
+  background:linear-gradient(135deg,#211b16,#4b3525);
+  color:white;
+  text-align:center;
+  padding:75px 20px;
+}
 
-    .title {
-      text-align: center;
-      font-size: 27px;
-      margin-bottom: 28px;
-    }
+.hero h1{
+  font-size:42px;
+  margin-bottom:15px;
+}
 
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
+.hero p{
+  font-size:17px;
+  color:#eee0c8;
+  margin-bottom:25px;
+}
 
-    .category {
-      background: white;
-      padding: 25px 10px;
-      text-align: center;
-      border-radius: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-      font-size: 17px;
-    }
+.btn{
+  display:inline-block;
+  background:#e6b85c;
+  color:#211b16;
+  padding:13px 25px;
+  border-radius:25px;
+  text-decoration:none;
+  font-weight:bold;
+  border:0;
+  cursor:pointer;
+}
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+section{
+  padding:45px 20px;
+  max-width:1100px;
+  margin:auto;
+}
 
-    .product {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }
+.title{
+  text-align:center;
+  font-size:28px;
+  margin-bottom:28px;
+}
 
-    .product-img {
-      height: 170px;
-      background: #ead9bd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+.categories{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
 
-    .product-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.category{
+  background:white;
+  padding:25px 10px;
+  text-align:center;
+  border-radius:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+  font-size:17px;
+}
 
-    .emoji-img {
-      font-size: 55px;
-    }
+.products{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
 
-    .product-info {
-      padding: 13px;
-    }
+.product{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
 
-    .product-info h3 {
-      font-size: 17px;
-      margin-bottom: 7px;
-    }
+.product-img{
+  height:180px;
+  background:#ead9bd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
 
-    .description {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 9px;
-      line-height: 1.4;
-    }
+.product-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .price {
-      font-weight: bold;
-      color: #9a6b18;
-      font-size: 18px;
-    }
+.emoji-img{
+  font-size:65px;
+}
 
-    .old-price {
-      color: #999;
-      text-decoration: line-through;
-      font-size: 13px;
-      margin-left: 5px;
-    }
+.product-info{
+  padding:15px;
+}
 
-    .meta {
-      font-size: 12px;
-      color: #777;
-      margin-top: 7px;
-    }
+.product-info h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
 
-    .order-btn {
-      display: block;
-      margin-top: 12px;
-      background: #17130f;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: bold;
-    }
+.description{
+  font-size:13px;
+  color:#777;
+  margin-bottom:10px;
+}
 
-    .loading {
-      text-align: center;
-      grid-column: 1 / -1;
-      padding: 30px;
-      color: #777;
-    }
+.price{
+  font-size:20px;
+  font-weight:bold;
+}
 
-    .error {
-      text-align: center;
-      grid-column: 1 / -1;
-      padding: 25px;
-      color: #a33;
-    }
+.old-price{
+  text-decoration:line-through;
+  color:#999;
+  margin-left:6px;
+  font-size:13px;
+}
 
-    .why {
-      background: #211b16;
-      color: white;
-      text-align: center;
-    }
+.meta{
+  margin-top:8px;
+  font-size:13px;
+  color:#666;
+}
 
-    .why-box {
-      display: grid;
-      gap: 15px;
-    }
+.order-btn{
+  width:100%;
+  margin-top:12px;
+  padding:11px;
+  border:0;
+  border-radius:22px;
+  background:#211b16;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .why-item {
-      padding: 18px;
-      border: 1px solid #6d5844;
-      border-radius: 12px;
-    }
+.order-btn:hover{
+  background:#4b3525;
+}
 
-    .about {
-      text-align: center;
-    }
+.order-btn:disabled{
+  cursor:not-allowed;
+}
 
-    .about p {
-      max-width: 700px;
-      margin: auto;
-      line-height: 1.7;
-      color: #555;
-    }
+.loading,
+.error{
+  text-align:center;
+  padding:30px;
+  grid-column:1/-1;
+}
 
-    .offer {
-      text-align: center;
-      background: #ead9bd;
-    }
+.about{
+  background:#211b16;
+  color:white;
+  max-width:none;
+  text-align:center;
+}
 
-    footer {
-      background: #17130f;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
+.about p{
+  max-width:700px;
+  margin:15px auto;
+  line-height:1.7;
+  color:#eee0c8;
+}
 
-    .whatsapp {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      background: #25d366;
-      color: white;
-      padding: 13px 17px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-      z-index: 20;
-    }
+.offer{
+  text-align:center;
+}
 
-    @media (min-width: 700px) {
-      .products {
-        grid-template-columns: repeat(4, 1fr);
-      }
+.offer p{
+  margin:15px 0 25px;
+}
 
-      .categories {
-        grid-template-columns: repeat(4, 1fr);
-      }
+/* CART */
 
-      .why-box {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  z-index:2000;
+}
+
+.cart-overlay.show{
+  display:block;
+}
+
+.cart-panel{
+  position:absolute;
+  right:0;
+  top:0;
+  height:100%;
+  width:min(420px,100%);
+  background:white;
+  padding:20px;
+  overflow-y:auto;
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close-cart{
+  border:0;
+  background:#eee;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.cart-item{
+  display:flex;
+  gap:12px;
+  border-bottom:1px solid #eee;
+  padding:14px 0;
+}
+
+.cart-item img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#ead9bd;
+}
+
+.cart-item-info{
+  flex:1;
+}
+
+.cart-item-name{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.cart-item-price{
+  font-size:14px;
+}
+
+.quantity{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
+}
+
+.quantity button{
+  width:27px;
+  height:27px;
+  border:0;
+  background:#211b16;
+  color:white;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.remove{
+  border:0;
+  background:none;
+  color:#c33;
+  cursor:pointer;
+  font-size:12px;
+  margin-top:6px;
+}
+
+.cart-total{
+  border-top:2px solid #211b16;
+  margin-top:20px;
+  padding-top:15px;
+  display:flex;
+  justify-content:space-between;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.checkout-btn{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border:0;
+  border-radius:25px;
+  background:#e6b85c;
+  color:#211b16;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.empty-cart{
+  text-align:center;
+  padding:50px 10px;
+  color:#777;
+}
+
+footer{
+  background:#211b16;
+  color:white;
+  text-align:center;
+  padding:30px 20px;
+}
+
+footer p{
+  margin-top:10px;
+  color:#aaa;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+
+  nav a{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .product-img{
+    height:150px;
+  }
+
+  section{
+    padding:35px 15px;
+  }
+}
+
+</style>
 </head>
+
 
 <body>
 
-  <header>
-    <div class="logo">🕯️ AK CANDLES</div>
+<header>
+
+  <div class="header-inner">
+
+    <div class="logo">
+      🕯️ AK CANDLES
+    </div>
 
     <nav>
-      <a href="#">Home</a>
+      <a href="#home">Home</a>
       <a href="#shop">Shop</a>
       <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+
+      <button class="cart-btn" onclick="openCart()">
+        🛒 Cart
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
     </nav>
-  </header>
+
+  </div>
+
+</header>
 
 
-  <section class="hero">
-    <h1>Light Your Moment</h1>
+<!-- HERO -->
 
-    <p>
-      Premium candles crafted to make every moment special.
-    </p>
+<section class="hero" id="home">
 
-    <a href="#shop" class="btn">SHOP NOW</a>
-  </section>
+  <h1>Light Your Moment ✨</h1>
 
+  <p>
+    Beautiful fragrances. Beautiful moments.
+  </p>
 
-  <section>
-    <h2 class="title">Shop By Category</h2>
-
-    <div class="categories">
-
-      <div class="category">🌹<br>Scented Candles</div>
-
-      <div class="category">🎁<br>Gift Candles</div>
-
-      <div class="category">❤️<br>Romantic</div>
-
-      <div class="category">✨<br>Special Occasion</div>
-
-    </div>
-  </section>
-
-
-  <section id="shop">
-
-    <h2 class="title">Our Candles</h2>
-
-    <!-- Products will load automatically from Supabase -->
-    <div class="products" id="products">
-
-      <div class="loading">
-        🕯️ Loading candles...
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section class="why">
-
-    <h2 class="title">Why Choose AK Candles?</h2>
-
-    <div class="why-box">
-
-      <div class="why-item">
-        🕯️<br><br>
-        <strong>Premium Quality</strong>
-        <p>Carefully crafted candles.</p>
-      </div>
-
-      <div class="why-item">
-        🌸<br><br>
-        <strong>Beautiful Fragrances</strong>
-        <p>Made to create a beautiful atmosphere.</p>
-      </div>
-
-      <div class="why-item">
-        📦<br><br>
-        <strong>Safe Delivery</strong>
-        <p>We carefully pack every order.</p>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section class="about" id="about">
-
-    <h2 class="title">About AK Candles</h2>
-
-    <p>
-      At AK Candles, we create beautiful and fragrant candles
-      designed to make your everyday moments warmer, calmer
-      and more special.
-    </p>
-
-  </section>
-
-
-  <section class="offer">
-
-    <h2>✨ Make Every Moment Special ✨</h2>
-
-    <p style="margin:15px 0;">
-      Discover your perfect candle today.
-    </p>
-
-    <a href="#shop" class="btn">EXPLORE CANDLES</a>
-
-  </section>
-
-
-  <footer id="contact">
-
-    <h3>🕯️ AK CANDLES</h3>
-
-    <p style="margin-top:10px;">
-      Light Your Moment
-    </p>
-
-    <p style="margin-top:15px; font-size:13px;">
-      © 2026 AK Candles. All Rights Reserved.
-    </p>
-
-  </footer>
-
-
-  <a
-    class="whatsapp"
-    href="https://wa.me/?text=Hello%20AK%20Candles"
-    target="_blank"
-  >
-    💬 WhatsApp
+  <a href="#shop" class="btn">
+    Explore Candles
   </a>
 
-
-  <script>
-
-    // ==========================================
-    // SUPABASE CONNECTION
-    // ==========================================
-
-    const SUPABASE_URL = "https://xgmgrwsszjbifxoclwta.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP";
+</section>
 
 
-    // ==========================================
-    // LOAD PRODUCTS
-    // ==========================================
+<!-- CATEGORIES -->
 
-    async function loadProducts() {
+<section>
 
-      const container = document.getElementById("products");
+  <h2 class="title">
+    Shop By Category
+  </h2>
 
-      try {
+  <div class="categories">
 
-        const response = await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?select=*&is_active=eq.true&order=is_featured.desc,created_at.desc",
-          {
-            method: "GET",
+    <div class="category">
+      🕯️<br>
+      Scented Candles
+    </div>
 
-            headers: {
-              "apikey": SUPABASE_KEY,
-              "Authorization": "Bearer " + SUPABASE_KEY
-            }
-          }
-        );
+    <div class="category">
+      🎁<br>
+      Gift Candles
+    </div>
+
+    <div class="category">
+      ❤️<br>
+      Romantic
+    </div>
+
+    <div class="category">
+      ✨<br>
+      Special Occasion
+    </div>
+
+  </div>
+
+</section>
 
 
-        if (!response.ok) {
-          throw new Error("Could not load products");
+<!-- PRODUCTS -->
+
+<section id="shop">
+
+  <h2 class="title">
+    Our Candles
+  </h2>
+
+  <div id="products" class="products">
+
+    <div class="loading">
+      🕯️ Loading candles...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="about" id="about">
+
+  <h2>
+    About AK Candles
+  </h2>
+
+  <p>
+    At AK Candles, we create beautiful and fragrant candles
+    designed to make your everyday moments warmer,
+    calmer and more special.
+  </p>
+
+</section>
+
+
+<!-- OFFER -->
+
+<section class="offer">
+
+  <h2 class="title">
+    ✨ Make Every Moment Special ✨
+  </h2>
+
+  <p>
+    Discover your perfect candle today.
+  </p>
+
+  <a href="#shop" class="btn">
+    Shop Now
+  </a>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <h3>
+    🕯️ AK CANDLES
+  </h3>
+
+  <p>
+    Light Your Moment
+  </p>
+
+  <p>
+    © 2026 AK Candles. All Rights Reserved.
+  </p>
+
+</footer>
+
+
+<!-- CART -->
+
+<div class="cart-overlay" id="cartOverlay">
+
+  <div class="cart-panel">
+
+    <div class="cart-header">
+
+      <h2>
+        🛒 Your Cart
+      </h2>
+
+      <button
+        class="close-cart"
+        onclick="closeCart()">
+        ×
+      </button>
+
+    </div>
+
+
+    <div id="cartItems"></div>
+
+
+    <div id="cartBottom">
+
+      <div class="cart-total">
+
+        <span>Total</span>
+
+        <span id="cartTotal">
+          ₹0
+        </span>
+
+      </div>
+
+      <button
+        class="checkout-btn"
+        onclick="goToCheckout()">
+
+        Proceed to Checkout →
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   SUPABASE CONNECTION
+========================================== */
+
+const SUPABASE_URL =
+"https://xgmgrwsszjbifoxclwta.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP";
+
+
+/* ==========================================
+   LOAD PRODUCTS
+========================================== */
+
+async function loadProducts(){
+
+  const container =
+    document.getElementById("products");
+
+  try{
+
+    const response = await fetch(
+
+      SUPABASE_URL +
+      "/rest/v1/products?select=*&is_active=eq.true&order=is_featured.desc,created_at.desc",
+
+      {
+        method:"GET",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":"Bearer " + SUPABASE_KEY
         }
-
-
-        const products = await response.json();
-
-
-        if (!products.length) {
-
-          container.innerHTML = `
-            <div class="loading">
-              🕯️ No candles available right now.
-            </div>
-          `;
-
-          return;
-        }
-
-
-        container.innerHTML = "";
-
-
-        products.forEach(product => {
-
-          const image = product.image_url
-            ? `
-              <img
-                src="${product.image_url}"
-                alt="${product.name || "AK Candle"}"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-              >
-              <span class="emoji-img" style="display:none;">🕯️</span>
-            `
-            : `
-              <span class="emoji-img">🕯️</span>
-            `;
-
-
-          const comparePrice =
-            product.compare_price &&
-            Number(product.compare_price) > Number(product.price)
-              ? `<span class="old-price">₹${product.compare_price}</span>`
-              : "";
-
-
-          const fragrance =
-            product.fragrance
-              ? `🌸 ${product.fragrance}`
-              : "";
-
-
-          const size =
-            product.size
-              ? `📏 ${product.size}`
-              : "";
-
-
-          const stock =
-            Number(product.stock) > 0
-              ? `📦 In Stock`
-              : `❌ Out of Stock`;
-
-
-          const whatsappMessage =
-            encodeURIComponent(
-              `Hello AK Candles 👋\n\nI want to order:\n${product.name}\nPrice: ₹${product.price}\nSKU: ${product.sku || "N/A"}`
-            );
-
-
-          const card = document.createElement("div");
-
-          card.className = "product";
-
-
-          card.innerHTML = `
-
-            <div class="product-img">
-              ${image}
-            </div>
-
-            <div class="product-info">
-
-              <h3>
-                ${product.name || "AK Candle"}
-              </h3>
-
-              ${
-                product.description
-                  ? `<p class="description">${product.description}</p>`
-                  : ""
-              }
-
-              <div>
-                <span class="price">
-                  ₹${product.price || "0"}
-                </span>
-
-                ${comparePrice}
-              </div>
-
-              <div class="meta">
-                ${fragrance}
-                ${size}
-              </div>
-
-              <div class="meta">
-                ${stock}
-              </div>
-
-              ${
-                Number(product.stock) > 0
-                  ? `
-                    <a
-                      class="order-btn"
-                      href="https://wa.me/?text=${whatsappMessage}"
-                      target="_blank"
-                    >
-                      💬 Order on WhatsApp
-                    </a>
-                  `
-                  : `
-                    <div
-                      class="order-btn"
-                      style="background:#999;"
-                    >
-                      Out of Stock
-                    </div>
-                  `
-              }
-
-            </div>
-          `;
-
-
-          container.appendChild(card);
-
-        });
-
       }
 
-      catch (error) {
+    );
 
-        console.error(error);
 
-        container.innerHTML = `
-          <div class="error">
-            ❌ Products load nahi ho sake.<br>
-            Please try again later.
-          </div>
-        `;
+    if(!response.ok){
 
-      }
+      throw new Error(
+        "Could not load products"
+      );
 
     }
 
 
-    // Start loading products
-    loadProducts();
+    const products =
+      await response.json();
 
-  </script>
+
+    if(!products.length){
+
+      container.innerHTML = `
+        <div class="loading">
+          🕯️ No candles available right now.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    products.forEach(product => {
+
+      let image = product.image_url
+
+        ? `
+          <img
+            src="${product.image_url}"
+            alt="${product.name || "AK Candle"}"
+          >
+        `
+
+        : `
+          <span class="emoji-img">
+            🕯️
+          </span>
+        `;
+
+
+      const comparePrice =
+
+        product.compare_price &&
+        Number(product.compare_price) >
+        Number(product.price)
+
+        ? `
+          <span class="old-price">
+            ₹${product.compare_price}
+          </span>
+        `
+
+        : "";
+
+
+      const fragrance =
+
+        product.fragrance
+
+        ? `🌸 ${product.fragrance}`
+
+        : "";
+
+
+      const size =
+
+        product.size
+
+        ? ` | 🏷️ ${product.size}`
+
+        : "";
+
+
+      const stock =
+
+        Number(product.stock) > 0
+
+        ? `🟢 In Stock`
+
+        : `🔴 Out of Stock`;
+
+
+      const card =
+        document.createElement("div");
+
+      card.className = "product";
+
+
+      card.innerHTML = `
+
+        <div class="product-img">
+          ${image}
+        </div>
+
+        <div class="product-info">
+
+          <h3>
+            ${product.name || "AK Candle"}
+          </h3>
+
+          ${
+            product.description
+
+            ? `
+              <p class="description">
+                ${product.description}
+              </p>
+            `
+
+            : ""
+          }
+
+
+          <div>
+
+            <span class="price">
+              ₹${product.price || "0"}
+            </span>
+
+            ${comparePrice}
+
+          </div>
+
+
+          <div class="meta">
+
+            ${fragrance}
+            ${size}
+
+          </div>
+
+
+          <div class="meta">
+
+            ${stock}
+
+          </div>
+
+
+          ${
+            Number(product.stock) > 0
+
+            ? `
+              <button
+                class="order-btn add-cart-btn"
+                type="button">
+
+                🛒 Add to Cart
+
+              </button>
+            `
+
+            : `
+              <button
+                class="order-btn"
+                type="button"
+                disabled
+                style="background:#999;">
+
+                ❌ Out of Stock
+
+              </button>
+            `
+          }
+
+        </div>
+
+      `;
+
+
+      const addCartBtn =
+        card.querySelector(
+          ".add-cart-btn"
+        );
+
+
+      if(addCartBtn){
+
+        addCartBtn.addEventListener(
+          "click",
+          () => {
+
+            addToCart(product);
+
+            addCartBtn.textContent =
+              "✓ Added to Cart";
+
+            setTimeout(() => {
+
+              addCartBtn.textContent =
+                "🛒 Add to Cart";
+
+            },1200);
+
+          }
+        );
+
+      }
+
+
+      container.appendChild(card);
+
+    });
+
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="error">
+
+        ❌ Products load nahi ho sake.
+
+        <br><br>
+
+        Please try again later.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* ==========================================
+   CART
+========================================== */
+
+let cart = JSON.parse(
+  localStorage.getItem("akCart") || "[]"
+);
+
+
+/* SAVE CART */
+
+function saveCart(){
+
+  localStorage.setItem(
+    "akCart",
+    JSON.stringify(cart)
+  );
+
+}
+
+
+/* ADD PRODUCT */
+
+function addToCart(product){
+
+  const existing =
+    cart.find(
+      item =>
+      String(item.id) ===
+      String(product.id)
+    );
+
+
+  if(existing){
+
+    if(
+      existing.quantity <
+      Number(product.stock)
+    ){
+
+      existing.quantity += 1;
+
+    }
+
+  }
+
+  else{
+
+    cart.push({
+
+      id:product.id,
+
+      name:product.name,
+
+      price:Number(product.price),
+
+      image_url:product.image_url || "",
+
+      stock:Number(product.stock),
+
+      quantity:1
+
+    });
+
+  }
+
+
+  saveCart();
+
+  updateCart();
+
+  openCart();
+
+}
+
+
+/* UPDATE CART */
+
+function updateCart(){
+
+  const cartItems =
+    document.getElementById(
+      "cartItems"
+    );
+
+  const cartCount =
+    document.getElementById(
+      "cartCount"
+    );
+
+  const cartTotal =
+    document.getElementById(
+      "cartTotal"
+    );
+
+
+  const totalQuantity =
+    cart.reduce(
+      (sum,item) =>
+      sum + item.quantity,
+      0
+    );
+
+
+  cartCount.textContent =
+    totalQuantity;
+
+
+  if(cart.length === 0){
+
+    cartItems.innerHTML = `
+
+      <div class="empty-cart">
+
+        🛒
+
+        <br><br>
+
+        Your cart is empty.
+
+        <br><br>
+
+        <a
+          href="#shop"
+          class="btn"
+          onclick="closeCart()">
+
+          Start Shopping
+
+        </a>
+
+      </div>
+
+    `;
+
+    cartTotal.textContent =
+      "₹0";
+
+    return;
+
+  }
+
+
+  let total = 0;
+
+
+  cartItems.innerHTML = "";
+
+
+  cart.forEach((item,index) => {
+
+    total +=
+      item.price *
+      item.quantity;
+
+
+    const image =
+      item.image_url
+
+      ? `
+        <img
+          src="${item.image_url}"
+          alt="${item.name}"
+        >
+      `
+
+      : `
+        <div
+          style="
+          width:70px;
+          height:70px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:#ead9bd;
+          border-radius:10px;
+          font-size:35px;">
+          🕯️
+        </div>
+      `;
+
+
+    cartItems.innerHTML += `
+
+      <div class="cart-item">
+
+        ${image}
+
+        <div class="cart-item-info">
+
+          <div class="cart-item-name">
+
+            ${item.name}
+
+          </div>
+
+          <div class="cart-item-price">
+
+            ₹${item.price}
+
+          </div>
+
+
+          <div class="quantity">
+
+            <button
+              onclick="changeQuantity(${index},-1)">
+
+              −
+
+            </button>
+
+
+            <span>
+              ${item.quantity}
+            </span>
+
+
+            <button
+              onclick="changeQuantity(${index},1)">
+
+              +
+
+            </button>
+
+          </div>
+
+
+          <button
+            class="remove"
+            onclick="removeFromCart(${index})">
+
+            Remove
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  cartTotal.textContent =
+    "₹" + total;
+
+}
+
+
+/* CHANGE QUANTITY */
+
+function changeQuantity(
+  index,
+  change
+){
+
+  const item =
+    cart[index];
+
+
+  const newQuantity =
+    item.quantity + change;
+
+
+  if(newQuantity <= 0){
+
+    cart.splice(index,1);
+
+  }
+
+  else if(
+    newQuantity <=
+    Number(item.stock)
+  ){
+
+    item.quantity =
+      newQuantity;
+
+  }
+
+
+  saveCart();
+
+  updateCart();
+
+}
+
+
+/* REMOVE */
+
+function removeFromCart(index){
+
+  cart.splice(index,1);
+
+  saveCart();
+
+  updateCart();
+
+}
+
+
+/* OPEN CART */
+
+function openCart(){
+
+  document
+    .getElementById("cartOverlay")
+    .classList.add("show");
+
+  updateCart();
+
+}
+
+
+/* CLOSE CART */
+
+function closeCart(){
+
+  document
+    .getElementById("cartOverlay")
+    .classList.remove("show");
+
+}
+
+
+/* CHECKOUT */
+
+function goToCheckout(){
+
+  if(cart.length === 0){
+
+    alert(
+      "Your cart is empty."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "Checkout system next step ch activate karange. 🛍️"
+  );
+
+}
+
+
+/* CLOSE WHEN CLICK OUTSIDE */
+
+document
+  .getElementById("cartOverlay")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target ===
+        this
+      ){
+
+        closeCart();
+
+      }
+
+    }
+  );
+
+
+/* INITIAL */
+
+updateCart();
+
+loadProducts();
+
+</script>
 
 </body>
 </html>
