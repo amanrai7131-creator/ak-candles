@@ -165,11 +165,6 @@ async function loadProducts() {
   const box = el("products");
   box.innerHTML = '<div class="notice">Loading candles...</div>';
 
-  if (SUPABASE_PUBLISHABLE_KEY === "sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP") {
-    box.innerHTML = '<div class="notice">Setup needed: add your Supabase publishable key in the code.</div>';
-    return;
-  }
-
   try {
     const response = await fetch(
       SUPABASE_URL + "/rest/v1/products?select=id,name,description,Price,compare_price,image_url,category,fragrance,size,stock,sku,is_active,is_featured&is_active=eq.true&order=is_featured.desc,name.asc",
