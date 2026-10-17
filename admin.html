@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#211b16">
+<title>AK Candles Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f8f4ee;color:#211b16;font-family:Arial,sans-serif}
+header{background:#211b16;color:#fff;padding:18px 16px}header h1{margin:0;color:#e6b85c;font-size:22px}
+main{max-width:760px;margin:20px auto;padding:0 14px}.card{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:18px;margin-bottom:16px}
+h2{margin:0 0 14px;font-size:20px}.hint{color:#665c52;font-size:13px;line-height:1.5}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #cfc5b8;border-radius:8px;font:inherit;background:white}
+button{border:0;border-radius:9px;padding:12px 16px;background:#211b16;color:white;font-weight:bold;font-size:15px;cursor:pointer}
+button.gold{background:#e6b85c;color:#211b16}button.secondary{background:#eee7dd;color:#211b16}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.status{font-size:14px;line-height:1.5;overflow-wrap:anywhere;margin-top:12px}.hidden{display:none!important}
+.product{border-top:1px solid #eee;padding:12px 0;display:flex;gap:12px;align-items:center}.product img{width:72px;height:72px;object-fit:cover;border-radius:8px;background:#ead9bd}.product strong{display:block}.product small{color:#665c52}.pill{display:inline-block;background:#eee7dd;padding:3px 8px;border-radius:12px;font-size:12px}
+</style>
+</head>
+<body>
+<header><h1>🕯️ AK Candles — Admin</h1></header>
+<main>
+  <section class="card" id="loginCard">
+    <h2>Admin login</h2>
+    <p class="hint">Use the email and password you created under Supabase → Authentication → Users.</p>
+    <form id="loginForm">
+      <label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+      <div class="actions"><button class="gold" type="submit">Log in</button></div>
+    </form>
+    <div class="status" id="loginStatus" role="status"></div>
+  </section>
+
+  <section class="card hidden" id="adminCard">
+    <h2>Add a candle</h2>
+    <p class="hint">After saving, refresh the public shop to see the product. Image upload uses the product-images bucket.</p>
+    <form id="productForm">
+      <label for="name">Product name *</label><input id="name" maxlength="120" required>
+      <label for="description">Description</label><textarea id="description" rows="2" maxlength="1000"></textarea>
+      <label for="price">Selling price (₹) *</label><input id="price" type="number" min="0" step="0.01" required>
+      <label for="comparePrice">Compare-at price (₹)</label><input id="comparePrice" type="number" min="0" step="0.01">
+      <label for="category">Category *</label>
+      <select id="category" required>
+        <option value="Scented Candles">Scented Candles</option>
+        <option value="Gift">Gift</option><option value="Romantic">Romantic</option>
+        <option value="Special Occasion">Special Occasion</option>
+      </select>
+      <label for="fragrance">Fragrance</label><input id="fragrance" maxlength="120" placeholder="e.g. Vanilla">
+      <label for="size">Size</label><input id="size" maxlength="60" placeholder="e.g. 150g">
+      <label for="stock">Stock quantity *</label><input id="stock" type="number" min="0" step="1" required value="1">
+      <label for="sku">SKU / Product code *</label><input id="sku" maxlength="80" required placeholder="e.g. AK-VAN-002">
+      <label for="photo">Product photo (optional)</label><input id="photo" type="file" accept="image/*">
+      <label><input id="featured" type="checkbox" style="width:auto"> Feature this product</label>
+      <div class="actions"><button class="gold" type="submit">Upload & save product</button><button class="secondary" id="refreshBtn" type="button">Refresh product list</button><button type="button" id="logoutBtn">Log out</button></div>
+    </form>
+    <div class="status" id="productStatus" role="status"></div>
+  </section>
+
+  <section class="card hidden" id="listCard">
+    <h2>Products</h2><div id="productList" class="hint">Loading products…</div>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+// These are the public project URL and publishable key. Never put a secret/service_role key here.
+const SUPABASE_URL = "https://xgmgrwsszjbifxoclwta.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP";
+const BUCKET = "product-images";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const $ = id => document.getElementById(id);
+const status = (id, message, isError=false) => {
+  $(id).textContent = message;
+  $(id).style.color = isError ? "#a32020" : "#246b36";
+};
+function showAdmin(show) {
+  $("loginCard").classList.toggle("hidden", show);
+  $("adminCard").classList.toggle("hidden", !show);
+  $("listCard").classList.toggle("hidden", !show);
+}
+async function verifyAdmin() {
+  const {data:{user}, error: userError} = await db.auth.getUser();
+  if (userError || !user) { showAdmin(false); return false; }
+  const {data, error} = await db.from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
+  if (error) {
+    showAdmin(false);
+    status("loginStatus", "Admin check failed: " + error.message + ". Check admin_users SELECT permission/RLS.", true);
+    return false;
+  }
+  if (!data) {
+    await db.auth.signOut();
+    showAdmin(false);
+    status("loginStatus", "This account is not in the admin allowlist.", true);
+    return false;
+  }
+  showAdmin(true);
+  await loadProducts();
+  return true;
+}
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  status("loginStatus", "Signing in…");
+  const {error} = await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+  if (error) { status("loginStatus", error.message, true); return; }
+  await verifyAdmin();
+});
+$("logoutBtn").addEventListener("click", async () => { await db.auth.signOut(); showAdmin(false); status("loginStatus","Logged out."); });
+$("refreshBtn").addEventListener("click", loadProducts);
+
+$("productForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  status("productStatus", "Saving product…");
+  const name = $("name").value.trim();
+  const sku = $("sku").value.trim();
+  const price = Number($("price").value);
+  const compareRaw = $("comparePrice").value;
+  const stock = Number($("stock").value);
+  if (!name || !sku || !Number.isFinite(price) || price < 0 || !Number.isInteger(stock) || stock < 0) {
+    status("productStatus", "Check product name, SKU, price and whole-number stock.", true); return;
+  }
+
+  let imageUrl = null;
+  const file = $("photo").files[0];
+  if (file) {
+    if (!file.type.startsWith("image/")) { status("productStatus","Please choose an image file.",true); return; }
+    if (file.size > 5 * 1024 * 1024) { status("productStatus","Image must be 5 MB or smaller.",true); return; }
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const path = Date.now() + "-" + safeName;
+    const {error: uploadError} = await db.storage.from(BUCKET).upload(path, file, {upsert:false,contentType:file.type});
+    if (uploadError) { status("productStatus","Photo upload failed: " + uploadError.message,true); return; }
+    const {data:publicData} = db.storage.from(BUCKET).getPublicUrl(path);
+    imageUrl = publicData.publicUrl;
+  }
+
+  const row = {
+    name,
+    description: $("description").value.trim() || null,
+    Price: price,
+    compare_price: compareRaw === "" ? null : Number(compareRaw),
+    image_url: imageUrl,
+    category: $("category").value,
+    fragrance: $("fragrance").value.trim() || null,
+    size: $("size").value.trim() || null,
+    stock,
+    sku,
+    is_active: true,
+    is_featured: $("featured").checked
+  };
+  const {error} = await db.from("products").insert(row);
+  if (error) {
+    status("productStatus","Product save failed: " + error.message + (imageUrl ? " The photo may already be uploaded; it can be reused." : ""),true);
+    return;
+  }
+  status("productStatus","Product saved successfully!");
+  $("productForm").reset();
+  $("stock").value = "1";
+  await loadProducts();
+});
+async function loadProducts() {
+  $("productList").textContent = "Loading products…";
+  const {data,error} = await db.from("products")
+    .select("id,name,Price,stock,sku,is_active,image_url")
+    .order("created_at",{ascending:false}).limit(100);
+  if (error) {
+    $("productList").textContent = "Could not load products: " + error.message;
+    return;
+  }
+  if (!data.length) { $("productList").textContent = "No products found."; return; }
+  $("productList").innerHTML = data.map(p => `
+    <div class="product">
+      ${p.image_url ? `<img src="${escapeAttr(p.image_url)}" alt="">` : `<img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Crect width='100%25' height='100%25' fill='%23ead9bd'/%3E%3Ctext x='50%25' y='60%25' text-anchor='middle' font-size='32'%3E%F0%9F%95%AF%3C/text%3E%3C/svg%3E">`}
+      <div><strong>${escapeHtml(p.name)}</strong><div>₹${Number(p.Price).toLocaleString("en-IN")} · Stock: ${Number(p.stock)||0}</div><small>${escapeHtml(p.sku||"")} · ${p.is_active ? "Active" : "Hidden"}</small></div>
+    </div>`).join("");
+}
+function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function escapeAttr(v) { return escapeHtml(v); }
+(async () => { await verifyAdmin(); })();
+</script>
+</body>
+</html>
