@@ -135,7 +135,7 @@ footer{padding:28px;text-align:center;background:#211b16;color:white}
 
 /* STEP A: Paste your Supabase publishable key here. NEVER use a secret key. */
 const SUPABASE_URL = "https://xgmgrwsszjbifxoclwta.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_SB_PUBLISHABLE_KEY_HERE";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP";
 
 /* STEP B: Replace with your business WhatsApp number, country code included.
    Example format: 919876543210 — digits only, no + sign or spaces. */
@@ -165,7 +165,7 @@ async function loadProducts() {
   const box = el("products");
   box.innerHTML = '<div class="notice">Loading candles...</div>';
 
-  if (SUPABASE_PUBLISHABLE_KEY === "PASTE_YOUR_SB_PUBLISHABLE_KEY_HERE") {
+  if (SUPABASE_PUBLISHABLE_KEY === "sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP") {
     box.innerHTML = '<div class="notice">Setup needed: add your Supabase publishable key in the code.</div>';
     return;
   }
