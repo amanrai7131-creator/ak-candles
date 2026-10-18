@@ -519,4 +519,11 @@ async function loadCustomers(){
 $("refreshCustomersBtn").addEventListener("click",loadCustomers);
 
 (async()=>{
-  if
+  if (async()=>{
+  if(await verifyAdmin()){
+    await loadProducts();
+  }
+})();
+</script>
+</body>
+</html>
