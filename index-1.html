@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#38251e">
+<title>AK Candles — Light Your Moment</title>
+<style>
+:root{--bg:#fffaf4;--paper:#fff;--ink:#30251f;--muted:#7b6c61;--line:#eadfd4;--brown:#815035;--brown2:#5c3826;--soft:#f4e9dd;--green:#236b3b;--red:#9b2e24}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Arial,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}.top{background:#38251e;color:#fff;text-align:center;padding:18px 14px}.brand{font-family:Georgia,serif;font-size:clamp(25px,6vw,36px);letter-spacing:2px;margin:0}.tag{font-size:13px;color:#f0dfd1;margin:5px 0 0}.nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line);padding:10px}.nav button,.nav a{border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;border-radius:999px;padding:8px 13px;font-size:13px}.nav .solid{background:var(--brown);color:#fff;border-color:var(--brown)}main{max-width:1100px;margin:auto;padding:18px 14px 45px}.hero{background:linear-gradient(120deg,#f2e1cf,#fff6e9);border-radius:18px;padding:30px 22px;margin-bottom:24px}.hero h2{font:clamp(26px,6vw,42px) Georgia,serif;margin:0 0 10px}.hero p{max-width:530px;line-height:1.6;color:#655044}.hero button{background:var(--brown2);color:white;border:0;border-radius:9px;padding:12px 17px;font-weight:700}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:22px 0 14px}.section-head h2{margin:0;font:26px Georgia,serif}.search{max-width:290px;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:white}.grid{display:grid;grid-template-columns:repeat( auto-fit,minmax(155px,1fr));gap:13px}.product{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:14px}.product img,.placeholder{width:100%;height:175px;object-fit:cover;background:#f1e7dc;display:grid;place-items:center}.placeholder{font-size:40px}.pbody{padding:12px}.pbody h3{font-size:16px;margin:0 0 5px}.desc{font-size:12px;color:var(--muted);min-height:16px}.price{font-weight:800;margin:9px 0}.old{color:#95877d;text-decoration:line-through;font-size:12px;margin-left:5px;font-weight:400}.pbody button,.primary{width:100%;border:0;background:var(--brown);color:white;border-radius:9px;padding:10px;font-weight:700}.pbody button:disabled{opacity:.45}.columns{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:25px}.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px;min-width:0}.panel h2{font:24px Georgia,serif;margin:0 0 14px}.muted{font-size:13px;line-height:1.5;color:var(--muted)}.cartline{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--line)}.cartline .detail{flex:1;min-width:0}.cartline small{display:block;color:var(--muted);margin-top:4px}.qty{display:flex;align-items:center;gap:6px}.qty button,.remove{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:7px;padding:5px 9px}.remove{font-size:12px}.total{display:flex;justify-content:space-between;font-weight:800;font-size:18px;padding:15px 0}.field label{display:block;font-size:13px;font-weight:700;margin-top:10px}.field input,.field textarea{width:100%;border:1px solid #d9cbbd;border-radius:9px;padding:12px;margin-top:5px;background:white}.field textarea{min-height:78px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.actions button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 12px;border-radius:9px}.actions .primary{background:var(--brown);color:white;border-color:var(--brown)}.hidden{display:none!important}.notice{display:none;border-radius:9px;padding:11px;margin:10px 0;font-size:13px;line-height:1.5}.notice.show{display:block}.notice.ok{background:#e7f5e9;color:var(--green)}.notice.err{background:#fff0ed;color:var(--red)}.divider{border:0;border-top:1px solid var(--line);margin:18px 0}.pill{display:inline-block;background:var(--soft);border-radius:999px;padding:5px 9px;font-size:12px;color:var(--brown2)}footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:12px}@media(max-width:720px){.columns{grid-template-columns:1fr}.hero{padding:25px 18px}.product img,.placeholder{height:155px}.nav{gap:6px}.nav button,.nav a{padding:8px 10px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 class="brand">AK CANDLES</h1>
+  <p class="tag">Light Your Moment</p>
+</header>
+<nav class="nav">
+  <a href="#home">Home</a><a href="#shop">Shop Candles</a><a href="#cartSection">Cart <span id="cartCount">0</span></a>
+  <button id="accountNav">Login / Sign Up</button>
+  <button id="logoutBtn" class="hidden">Logout</button>
+</nav>
+<main id="home">
+  <section class="hero">
+    <span class="pill">Made for your moments</span>
+    <h2>Make every moment glow.</h2>
+    <p>Discover candles for calm evenings, thoughtful gifts and special celebrations. Choose your favourite, add it to your cart and order right here.</p>
+    <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop candles</button>
+  </section>
+
+  <section id="shop">
+    <div class="section-head"><h2>Our Candles</h2><input id="search" class="search" type="search" placeholder="Search candles…"></div>
+    <div id="products" class="grid"><p class="muted">Loading candles…</p></div>
+    <div id="productNotice" class="notice"></div>
+  </section>
+
+  <div class="columns">
+    <section class="panel hidden" id="accountPanel">
+      <h2 id="authTitle">Customer account</h2>
+      <p class="muted">Create an account or sign in to continue shopping. Your password is handled by Supabase Authentication.</p>
+      <div class="actions">
+        <button id="showLogin" class="primary">Login</button>
+        <button id="showSignup">Sign Up</button>
+        <button id="showForgot">Forgot Password</button>
+      </div>
+      <form id="authForm">
+        <div class="field" id="nameField"><label for="authName">Full name</label><input id="authName" maxlength="100" autocomplete="name" placeholder="Your name"></div>
+        <div class="field"><label for="authEmail">Email address</label><input id="authEmail" type="email" required maxlength="254" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="field" id="passwordField"><label for="authPassword">Password</label><input id="authPassword" type="password" minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></div>
+        <button class="primary" id="authSubmit" type="submit">Login</button>
+      </form>
+      <div id="authNotice" class="notice" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="cartSection">
+      <h2>Your Cart</h2>
+      <div id="cart"><p class="muted">Your cart is empty. Add a candle above to begin.</p></div>
+      <div class="total"><span>Total</span><span id="total">₹0</span></div>
+      <hr class="divider">
+      <h2>Checkout</h2>
+      <p class="muted" id="checkoutHint">Log in or sign up before placing an order.</p>
+      <form id="checkoutForm">
+        <div class="field"><label for="customerName">Full name</label><input id="customerName" name="name" required minlength="2" maxlength="100" autocomplete="name"></div>
+        <div class="field"><label for="customerPhone">Mobile number</label><input id="customerPhone" name="phone" type="tel" inputmode="tel" required minlength="10" maxlength="15" autocomplete="tel" placeholder="10-digit mobile number"></div>
+        <div class="field"><label for="customerAddress">Delivery address</label><textarea id="customerAddress" name="address" required minlength="8" maxlength="500" autocomplete="street-address" placeholder="House/street, village/city, state, PIN code"></textarea></div>
+        <div class="field"><label>Payment method</label><div class="actions"><label><input type="radio" name="payment" value="COD" checked> Cash on Delivery</label><label><input type="radio" name="payment" value="ONLINE" disabled> Online payment (coming soon)</label></div></div>
+        <button id="placeOrder" class="primary" type="submit">Place COD order</button>
+      </form>
+      <div id="orderNotice" class="notice" role="status" aria-live="polite"></div>
+    </section>
+  </div>
+</main>
+<footer>AK Candles · Light Your Moment</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  // Browser-safe publishable key only. Never put a Supabase service_role/secret key in this file.
+  const SUPABASE_URL = 'https://xgmgrwsszjbifxoclwta.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP';
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  const $ = id => document.getElementById(id);
+  const money = n => new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(Number(n)||0);
+  const esc = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let products = [], cart = {}, currentUser = null, authMode = 'login';
+
+  function notice(el,text,type='') { el.className='notice'+(text?' show':'')+(type?' '+type:''); el.textContent=text; }
+  function setAuthMode(mode) {
+    authMode=mode;
+    $('accountPanel').classList.remove('hidden');
+    $('authTitle').textContent=({login:'Customer Login',signup:'Create Customer Account',forgot:'Reset Password'}[mode]);
+    $('nameField').classList.toggle('hidden',mode!=='signup');
+    $('passwordField').classList.toggle('hidden',mode==='forgot');
+    $('authPassword').required=mode!=='forgot';
+    $('authPassword').autocomplete=mode==='signup'?'new-password':'current-password';
+    $('authSubmit').textContent=({login:'Login',signup:'Create Account',forgot:'Send Reset Link'}[mode]);
+    notice($('authNotice'),'');
+    $('accountPanel').scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  $('accountNav').addEventListener('click',()=>setAuthMode('login'));
+  $('showLogin').addEventListener('click',()=>setAuthMode('login'));
+  $('showSignup').addEventListener('click',()=>setAuthMode('signup'));
+  $('showForgot').addEventListener('click',()=>setAuthMode('forgot'));
+  $('logoutBtn').addEventListener('click',async()=>{const {error}=await db.auth.signOut();if(error)notice($('authNotice'),error.message,'err');});
+
+  async function refreshSession() {
+    const {data,error}=await db.auth.getSession();
+    if(error) console.error(error);
+    currentUser=data?.session?.user||null;
+    $('accountNav').textContent=currentUser?(currentUser.email||'Account'):'Login / Sign Up';
+    $('logoutBtn').classList.toggle('hidden',!currentUser);
+    $('checkoutHint').textContent=currentUser?'Signed in as '+(currentUser.email||'customer')+'. Cash on Delivery is available.':'Log in or sign up before placing an order.';
+    $('placeOrder').disabled=!currentUser;
+    if(currentUser && currentUser.email) $('authEmail').value=currentUser.email;
+  }
+  db.auth.onAuthStateChange((_event,session)=>{
+    currentUser=session?.user||null;
+    $('accountNav').textContent=currentUser?(currentUser.email||'Account'):'Login / Sign Up';
+    $('logoutBtn').classList.toggle('hidden',!currentUser);
+    $('checkoutHint').textContent=currentUser?'Signed in as '+(currentUser.email||'customer')+'. Cash on Delivery is available.':'Log in or sign up before placing an order.';
+    $('placeOrder').disabled=!currentUser;
+  });
+
+  $('authForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const email=$('authEmail').value.trim();
+    const password=$('authPassword').value;
+    const name=$('authName').value.trim();
+    const btn=$('authSubmit');btn.disabled=true;
+    try {
+      if(authMode==='signup') {
+        const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:location.origin+location.pathname}});
+        if(error) throw error;
+        if(data.session) {notice($('authNotice'),'Account created and you are signed in.','ok');}
+        else {notice($('authNotice'),'Sign-up submitted. Check your email to confirm your account, then log in.','ok');}
+      } else if(authMode==='login') {
+        const {error}=await db.auth.signInWithPassword({email,password});
+        if(error) throw error;
+        notice($('authNotice'),'Login successful. You can place your order now.','ok');
+      } else {
+        const redirectTo=location.origin+location.pathname;
+        const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});
+        if(error) throw error;
+        notice($('authNotice'),'If an account exists for this email, a password-reset link will be sent.','ok');
+      }
+      await refreshSession();
+    } catch(err) { notice($('authNotice'),err.message||'Authentication failed. Please try again.','err'); }
+    finally {btn.disabled=false;}
+  });
+
+  function renderProducts() {
+    const term=$('search').value.trim().toLowerCase();
+    const shown=products.filter(p=>[p.name,p.description,p.category,p.fragrance].some(v=>String(v||'').toLowerCase().includes(term)));
+    if(!shown.length){$('products').innerHTML='<p class="muted">No matching active candles found.</p>';return;}
+    $('products').innerHTML=shown.map(p=>`<article class="product">
+      ${p.image_url?`<img loading="lazy" src="${esc(p.image_url)}" alt="${esc(p.name)}">`:`<div class="placeholder" aria-label="Candle">🕯️</div>`}
+      <div class="pbody"><h3>${esc(p.name)}</h3><div class="desc">${esc(p.fragrance||p.category||p.description||'')}</div>
+      <div class="price">${money(p.Price)} ${p.compare_price?`<span class="old">${money(p.compare_price)}</span>`:''}</div>
+      <div class="desc">${Number(p.stock)>0?'In stock: '+Number(p.stock):'Out of stock'}</div>
+      <button type="button" data-add="${Number(p.id)}" ${Number(p.stock)<1?'disabled':''}>Add to Cart</button></div></article>`).join('');
+    $('products').querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
+      const id=Number(b.dataset.add),p=products.find(x=>Number(x.id)===id);
+      if(!p)return;
+      if(Number(cart[id]||0)>=Number(p.stock)){notice($('productNotice'),'Available stock limit reached.','err');return;}
+      cart[id]=Number(cart[id]||0)+1;renderCart();notice($('productNotice'),'Added to cart.','ok');
+    }));
+  }
+  function renderCart() {
+    const entries=Object.entries(cart).filter(([,q])=>Number(q)>0);
+    $('cartCount').textContent=entries.reduce((n,[,q])=>n+Number(q),0);
+    if(!entries.length){$('cart').innerHTML='<p class="muted">Your cart is empty. Add a candle above to begin.</p>';$('total').textContent=money(0);return;}
+    $('cart').innerHTML=entries.map(([id,q])=>{
+      const p=products.find(x=>Number(x.id)===Number(id));if(!p)return '';
+      return `<div class="cartline"><div class="detail"><strong>${esc(p.name)}</strong><small>${money(p.Price)} each</small></div><div class="qty"><button type="button" data-minus="${id}">−</button><span>${q}</span><button type="button" data-plus="${id}">+</button></div><button class="remove" type="button" data-remove="${id}">Remove</button></div>`;
+    }).join('');
+    const total=entries.reduce((sum,[id,q])=>{const p=products.find(x=>Number(x.id)===Number(id));return sum+(p?Number(p.Price)*Number(q):0);},0);
+    $('total').textContent=money(total);
+    $('cart').querySelectorAll('[data-minus]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.minus;cart[id]=Number(cart[id])-1;if(cart[id]<=0)delete cart[id];renderCart();}));
+    $('cart').querySelectorAll('[data-plus]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.plus,p=products.find(x=>Number(x.id)===Number(id));if(Number(cart[id])<Number(p.stock))cart[id]++;else notice($('productNotice'),'Available stock limit reached.','err');renderCart();}));
+    $('cart').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{delete cart[b.dataset.remove];renderCart();}));
+  }
+  async function loadProducts() {
+    const {data,error}=await db.from('products').select('id,name,description,Price,compare_price,image_url,category,fragrance,size,stock,is_active').eq('is_active',true).order('id');
+    if(error){$('products').innerHTML='<p class="muted">Products could not load. Please refresh the page.</p>';console.error(error);return;}
+    products=(data||[]);renderProducts();
+  }
+
+  $('checkoutForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!currentUser){notice($('orderNotice'),'Please log in or create an account before ordering.','err');setAuthMode('login');return;}
+    if(!Object.keys(cart).length){notice($('orderNotice'),'Please add at least one candle to your cart.','err');return;}
+    const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim();
+    if(!/^[0-9+\s()-]{10,15}$/.test(phone)||phone.replace(/\D/g,'').length<10){notice($('orderNotice'),'Please enter a valid mobile number.','err');return;}
+    const items=Object.entries(cart).map(([id,quantity])=>({id:Number(id),quantity:Number(quantity)}));
+    const btn=$('placeOrder');btn.disabled=true;btn.textContent='Submitting…';
+    try {
+      const {data,error}=await db.rpc('place_cod_order',{p_name:name,p_phone:phone,p_address:address,p_items:items});
+      if(error)throw error;
+      cart={};renderCart();e.target.reset();notice($('orderNotice'),'Order placed successfully! Order number: #'+data+'. Payment: Cash on Delivery.','ok');
+    } catch(err) {
+      console.error(err);
+      notice($('orderNotice'),'Order submission is not connected yet. The secure Supabase place_cod_order function must be created before customers can place orders.','err');
+    } finally {btn.disabled=!currentUser;btn.textContent='Place COD order';}
+  });
+
+  $('search').addEventListener('input',renderProducts);
+  refreshSession();loadProducts();renderCart();
+})();
+</script>
+</body>
+</html>
