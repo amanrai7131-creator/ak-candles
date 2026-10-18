@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#211b16">
+<title>AK Candles Admin</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f8f4ee;color:#211b16;font-family:Arial,sans-serif}
+header{background:#211b16;color:white;padding:18px}
+header h1{margin:0;color:#e6b85c;font-size:22px}
+main{max-width:1000px;margin:20px auto;padding:0 12px}
+.card{background:white;border:1px solid #eadfce;border-radius:14px;padding:16px;margin-bottom:16px}
+h2{margin:0 0 14px;font-size:20px}
+h3{font-size:16px}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #cfc5b8;border-radius:8px;font:inherit;background:white;color:#211b16}
+input[type=checkbox]{width:auto}
+button{border:0;border-radius:8px;padding:10px 13px;background:#211b16;color:white;font-weight:bold;cursor:pointer}
+button.gold{background:#e6b85c;color:#211b16}
+button.light{background:#eee7dd;color:#211b16}
+button.danger{background:#a32020;color:white}
+button:disabled{opacity:.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hint{color:#665c52;font-size:13px;line-height:1.5}
+.status{font-size:14px;line-height:1.5;overflow-wrap:anywhere;margin-top:12px}
+.hidden{display:none!important}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px}
+.tabs button{white-space:nowrap}
+.item{border-top:1px solid #eee;padding:13px 0;display:flex;gap:12px;align-items:flex-start}
+.item img{width:76px;height:76px;object-fit:cover;border-radius:8px;background:#ead9bd}
+.item-main{min-width:0;flex:1;overflow-wrap:anywhere}
+.item strong{display:block;margin-bottom:5px}
+.item small{color:#665c52}
+.pill{display:inline-block;background:#eee7dd;padding:4px 8px;border-radius:12px;font-size:12px}
+.order{border-top:1px solid #eadfce;padding:14px 0}
+.order p{margin:6px 0;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8f4ee;padding:10px;border-radius:8px;font-size:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.card{padding:13px}}
+</style>
+</head>
+<body>
+<header><h1>🕯️ AK Candles — Admin</h1></header>
+<main>
+<section class="card" id="loginCard">
+<h2>Admin Login</h2>
+<p class="hint">Sign in using your existing Supabase account. Only approved admins can continue.</p>
+<form id="loginForm">
+<label for="email">Email</label>
+<input id="email" type="email" autocomplete="username" required>
+<label for="password">Password</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<div class="actions">
+<button class="gold" type="submit">Log in</button>
+<button class="light" id="forgotBtn" type="button">Forgot password?</button>
+</div>
+</form>
+<div class="status" id="loginStatus" role="status"></div>
+</section>
+
+<section id="workspace" class="hidden">
+<div class="card">
+<div class="actions" style="justify-content:space-between;align-items:center;margin-top:0">
+<div><strong>Admin Dashboard</strong><div class="hint" id="adminEmail"></div></div>
+<button id="logoutBtn" class="light">Log out</button>
+</div>
+</div>
+
+<nav class="tabs">
+<button class="gold" data-tab="products">Products</button>
+<button class="light" data-tab="orders">Orders</button>
+<button class="light" data-tab="customers">Customers</button>
+</nav>
+
+<section id="productsTab">
+<div class="card">
+<h2 id="formHeading">Add a candle</h2>
+<p class="hint">Prices use the existing products table. Images upload to the public product-images bucket.</p>
+<form id="productForm">
+<input type="hidden" id="productId">
+<div class="grid">
+<div>
+<label for="pname">Product name *</label>
+<input id="pname" maxlength="120" required>
+</div>
+<div>
+<label for="sku">SKU / Product code *</label>
+<input id="sku" maxlength="80" required>
+</div>
+<div>
+<label for="price">Selling price (₹) *</label>
+<input id="price" type="number" min="0" step="0.01" required>
+</div>
+<div>
+<label for="comparePrice">Compare-at price (₹)</label>
+<input id="comparePrice" type="number" min="0" step="0.01">
+</div>
+<div>
+<label for="category">Category *</label>
+<select id="category" required>
+<option>Scented Candles</option>
+<option>Gift</option>
+<option>Romantic</option>
+<option>Special Occasion</option>
+</select>
+</div>
+<div>
+<label for="stock">Stock quantity *</label>
+<input id="stock" type="number" min="0" step="1" value="1" required>
+</div>
+<div>
+<label for="fragrance">Fragrance</label>
+<input id="fragrance" maxlength="120" placeholder="Vanilla">
+</div>
+<div>
+<label for="size">Size</label>
+<input id="size" maxlength="60" placeholder="150g">
+</div>
+</div>
+<label for="description">Description</label>
+<textarea id="description" rows="3" maxlength="1000"></textarea>
+<label for="photo">Product photo (optional)</label>
+<input id="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+<p class="hint">Maximum 5 MB. Leave photo empty when editing to keep the current image.</p>
+<label><input id="featured" type="checkbox"> Feature this product</label>
+<label><input id="active" type="checkbox" checked> Product is active and visible in shop</label>
+<div class="actions">
+<button class="gold" id="saveProductBtn" type="submit">Save product</button>
+<button class="light hidden" id="cancelEditBtn" type="button">Cancel edit</button>
+<button class="light" id="refreshProductsBtn" type="button">Refresh list</button>
+</div>
+</form>
+<div class="status" id="productStatus" role="status"></div>
+</div>
+
+<div class="card">
+<h2>Products</h2>
+<div id="productList" class="hint">Loading products…</div>
+</div>
+</section>
+
+<section id="ordersTab" class="hidden">
+<div class="card">
+<h2>Customer Orders</h2>
+<p class="hint">Update an order status and press Save status. Only authorized admins can read or update orders.</p>
+<button class="gold" id="refreshOrdersBtn">Refresh orders</button>
+<div id="ordersList" class="status">Press refresh to load orders.</div>
+</div>
+</section>
+
+<section id="customersTab" class="hidden">
+<div class="card">
+<h2>Registered Customers</h2>
+<p class="hint">This list uses a secure Supabase Edge Function. The service-role key must remain on the server, never in this HTML file.</p>
+<button class="gold" id="refreshCustomersBtn">Load customers</button>
+<div id="customersList" class="status">Load customers to view the list.</div>
+</div>
+</section>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+const SUPABASE_URL="https://xgmgrwsszjbifxoclwta.supabase.co";
+const SUPABASE_KEY="sb_publishable_WeRFVhRBNdwHC8hqMdzUrA_eKEE4fDP";
+const BUCKET="product-images";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+let currentUser=null;
+let productCache=[];
+let busy=false;
+
+function msg(id,text,error=false){
+  $(id).textContent=text;
+  $(id).style.color=error?"#a32020":"#246b36";
+}
+function html(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function money(v){
+  return "₹"+Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+}
+function setBusy(v){
+  busy=v;
+  $("saveProductBtn").disabled=v;
+}
+function showLogin(){
+  $("loginCard").classList.remove("hidden");
+  $("workspace").classList.add("hidden");
+}
+function showWorkspace(){
+  $("loginCard").classList.add("hidden");
+  $("workspace").classList.remove("hidden");
+  $("adminEmail").textContent=currentUser?.email||"Authorized admin";
+}
+async function verifyAdmin(){
+  const {data:{user},error:userError}=await db.auth.getUser();
+  if(userError||!user){currentUser=null;showLogin();return false;}
+  const {data,error}=await db.from("admin_users")
+    .select("user_id").eq("user_id",user.id).maybeSingle();
+  if(error){
+    currentUser=null;
+    showLogin();
+    msg("loginStatus","Admin permission check failed: "+error.message,true);
+    return false;
+  }
+  if(!data){
+    await db.auth.signOut();
+    currentUser=null;
+    showLogin();
+    msg("loginStatus","This account is not approved as an admin.",true);
+    return false;
+  }
+  currentUser=user;
+  showWorkspace();
+  return true;
+}
+
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  msg("loginStatus","Signing in…");
+  const {error}=await db.auth.signInWithPassword({
+    email:$("email").value.trim(),
+    password:$("password").value
+  });
+  if(error){msg("loginStatus",error.message,true);return;}
+  if(await verifyAdmin()){
+    msg("loginStatus","Login successful.");
+    await loadProducts();
+  }
+});
+
+$("forgotBtn").addEventListener("click",async()=>{
+  const email=$("email").value.trim();
+  if(!email){msg("loginStatus","Enter your email first.",true);return;}
+  const {error}=await db.auth.resetPasswordForEmail(email,{
+    redirectTo:location.origin+location.pathname
+  });
+  msg("loginStatus",error?error.message:"If the account exists, a password reset email has been requested.",!!error);
+});
+
+$("logoutBtn").addEventListener("click",async()=>{
+  await db.auth.signOut();
+  currentUser=null;
+  showLogin();
+  msg("loginStatus","Logged out.");
+});
+
+document.querySelectorAll("[data-tab]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const tab=btn.dataset.tab;
+    ["products","orders","customers"].forEach(name=>{
+      $(name+"Tab").classList.toggle("hidden",name!==tab);
+    });
+    document.querySelectorAll("[data-tab]").forEach(b=>{
+      b.className=b.dataset.tab===tab?"gold":"light";
+    });
+    if(tab==="orders")loadOrders();
+    if(tab==="customers")loadCustomers();
+    if(tab==="products")loadProducts();
+  });
+});
+
+function resetProductForm(){
+  $("productForm").reset();
+  $("productId").value="";
+  $("stock").value="1";
+  $("active").checked=true;
+  $("formHeading").textContent="Add a candle";
+  $("saveProductBtn").textContent="Save product";
+  $("cancelEditBtn").classList.add("hidden");
+}
+$("cancelEditBtn").addEventListener("click",resetProductForm);
+
+$("productForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(busy)return;
+  if(!currentUser||!(await verifyAdmin()))return;
+
+  const id=$("productId").value;
+  const name=$("pname").value.trim();
+  const sku=$("sku").value.trim();
+  const price=Number($("price").value);
+  const compareRaw=$("comparePrice").value;
+  const stock=Number($("stock").value);
+
+  if(!name||!sku||!Number.isFinite(price)||price<0||
+     !Number.isInteger(stock)||stock<0){
+    msg("productStatus","Check name, SKU, price and whole-number stock.",true);
+    return;
+  }
+  const compare=compareRaw===""?null:Number(compareRaw);
+  if(compare!==null&&(!Number.isFinite(compare)||compare<0)){
+    msg("productStatus","Compare-at price must be a valid non-negative number.",true);
+    return;
+  }
+
+  setBusy(true);
+  try{
+    const old=productCache.find(p=>String(p.id)===String(id));
+    let imageUrl=old?.image_url||null;
+    const file=$("photo").files[0];
+
+    if(file){
+      if(!file.type.startsWith("image/"))throw Error("Choose an image file.");
+      if(file.size>5*1024*1024)throw Error("Image must be 5 MB or smaller.");
+      const ext=(file.name.split(".").pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"");
+      const path=currentUser.id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
+      const {error:upErr}=await db.storage.from(BUCKET).upload(path,file,{
+        upsert:false,contentType:file.type
+      });
+      if(upErr)throw Error("Photo upload failed: "+upErr.message);
+      imageUrl=db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+    }
+
+    const row={
+      name,sku,Price:price,compare_price:compare,
+      description:$("description").value.trim()||null,
+      category:$("category").value,
+      fragrance:$("fragrance").value.trim()||null,
+      size:$("size").value.trim()||null,
+      stock,image_url:imageUrl,
+      is_featured:$("featured").checked,
+      is_active:$("active").checked
+    };
+
+    let result;
+    if(id){
+      result=await db.from("products").update(row).eq("id",id).select("id").maybeSingle();
+    }else{
+      result=await db.from("products").insert(row).select("id").maybeSingle();
+    }
+    if(result.error)throw Error(result.error.message);
+    if(!result.data)throw Error("No product was returned. Check your admin RLS policies.");
+    msg("productStatus",id?"Product updated successfully.":"Product added successfully.");
+    resetProductForm();
+    await loadProducts();
+  }catch(err){
+    msg("productStatus",err.message||"Could not save product.",true);
+  }finally{
+    setBusy(false);
+  }
+});
+
+async function loadProducts(){
+  if(!currentUser)return;
+  $("productList").textContent="Loading products…";
+  const {data,error}=await db.from("products")
+    .select("id,name,description,Price,compare_price,category,fragrance,size,stock,sku,image_url,is_active,is_featured,created_at")
+    .order("created_at",{ascending:false}).limit(200);
+
+  if(error){
+    $("productList").textContent="Could not load products: "+error.message+
+      " — check the admin SELECT policy for products.";
+    return;
+  }
+  productCache=data||[];
+  renderProducts();
+}
+function renderProducts(){
+  if(!productCache.length){
+    $("productList").textContent="No products found.";
+    return;
+  }
+  $("productList").innerHTML=productCache.map(p=>`
+    <div class="item">
+      ${p.image_url
+        ?`<img src="${html(p.image_url)}" alt="">`
+        :`<div style="width:76px;height:76px;display:grid;place-items:center;background:#ead9bd;border-radius:8px">🕯️</div>`}
+      <div class="item-main">
+        <strong>${html(p.name)}</strong>
+        <div>${money(p.Price)} · Stock: ${Number(p.stock)||0}</div>
+        <small>${html(p.sku||"")} · ${p.is_active?"Active":"Hidden"} · ${p.is_featured?"Featured":"Standard"}</small>
+        <div class="actions">
+          <button class="gold" data-edit="${html(p.id)}">Edit</button>
+          <button class="light" data-toggle="${html(p.id)}">${p.is_active?"Hide":"Activate"}</button>
+          <button class="danger" data-delete="${html(p.id)}">Delete</button>
+        </div>
+      </div>
+    </div>`).join("");
+
+  $("productList").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editProduct(b.dataset.edit));
+  $("productList").querySelectorAll("[data-toggle]").forEach(b=>b.onclick=()=>toggleProduct(b.dataset.toggle));
+  $("productList").querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteProduct(b.dataset.delete));
+}
+function editProduct(id){
+  const p=productCache.find(x=>String(x.id)===String(id));
+  if(!p)return;
+  $("productId").value=p.id;
+  $("pname").value=p.name||"";
+  $("sku").value=p.sku||"";
+  $("price").value=p.Price??"";
+  $("comparePrice").value=p.compare_price??"";
+  $("description").value=p.description||"";
+  $("category").value=p.category||"Scented Candles";
+  $("fragrance").value=p.fragrance||"";
+  $("size").value=p.size||"";
+  $("stock").value=p.stock??0;
+  $("featured").checked=!!p.is_featured;
+  $("active").checked=!!p.is_active;
+  $("photo").value="";
+  $("formHeading").textContent="Edit: "+p.name;
+  $("saveProductBtn").textContent="Update product";
+  $("cancelEditBtn").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+async function toggleProduct(id){
+  if(!currentUser||!(await verifyAdmin()))return;
+  const p=productCache.find(x=>String(x.id)===String(id));
+  if(!p)return;
+  const {error}=await db.from("products")
+    .update({is_active:!p.is_active}).eq("id",p.id);
+  if(error){alert("Could not update product: "+error.message);return;}
+  await loadProducts();
+}
+async function deleteProduct(id){
+  if(!currentUser||!(await verifyAdmin()))return;
+  const p=productCache.find(x=>String(x.id)===String(id));
+  if(!p)return;
+  if(!confirm("Permanently delete "+p.name+"? Existing orders may refer to this product."))return;
+  const {error}=await db.from("products").delete().eq("id",p.id);
+  if(error){alert("Could not delete product: "+error.message);return;}
+  if(String($("productId").value)===String(id))resetProductForm();
+  await loadProducts();
+}
+
+$("refreshProductsBtn").addEventListener("click",loadProducts);
+
+async function loadOrders(){
+  if(!currentUser||!(await verifyAdmin()))return;
+  $("ordersList").textContent="Loading orders…";
+  const {data,error}=await db.from("Orders")
+    .select("id,created_at,name,phone,address,items,total_price,status,payment_method")
+    .order("created_at",{ascending:false}).limit(200);
+  if(error){
+    $("ordersList").textContent="Could not load orders: "+error.message;
+    return;
+  }
+  if(!data?.length){$("ordersList").textContent="No orders found.";return;}
+
+  $("ordersList").innerHTML=data.map(o=>{
+    const items=Array.isArray(o.items)?o.items:[];
+    const itemText=items.map(i=>
+      `${i.name||"Product"} × ${Number(i.quantity)||1}`+
+      (i.price!=null?" — "+money(i.price):"")
+    ).join("\n");
+    const date=o.created_at?new Date(o.created_at).toLocaleString("en-IN"):"";
+    const statuses=["Pending","Confirmed","Shipped","Delivered","Cancelled"];
+    const current=statuses.includes(o.status)?o.status:"Pending";
+    return `<div class="order">
+      <strong>Order #${html(o.id)}</strong>
+      <p class="hint">${html(date)} · ${html(o.payment_method||"Unknown payment")}</p>
+      <p><b>Customer:</b> ${html(o.name)}</p>
+      <p><b>Phone:</b> ${html(o.phone)}</p>
+      <p><b>Address:</b> ${html(o.address)}</p>
+      <p><b>Items:</b></p><pre>${html(itemText||JSON.stringify(o.items||[]))}</pre>
+      <p><b>Total:</b> ${money(o.total_price)}</p>
+      <label for="orderStatus-${html(o.id)}">Order status</label>
+      <select id="orderStatus-${html(o.id)}">
+        ${statuses.map(s=>`<option ${s===current?"selected":""}>${s}</option>`).join("")}
+      </select>
+      <button class="gold" style="margin-top:10px" data-save-order="${html(o.id)}">Save status</button>
+      <div class="status" id="orderMsg-${html(o.id)}"></div>
+    </div>`;
+  }).join("");
+
+  $("ordersList").querySelectorAll("[data-save-order]").forEach(b=>{
+    b.addEventListener("click",()=>saveOrderStatus(b.dataset.saveOrder));
+  });
+}
+async function saveOrderStatus(id){
+  if(!currentUser||!(await verifyAdmin()))return;
+  const statusValue=$("orderStatus-"+id).value;
+  const allowed=["Pending","Confirmed","Shipped","Delivered","Cancelled"];
+  if(!allowed.includes(statusValue))return;
+  const {data,error}=await db.from("Orders").update({status:statusValue})
+    .eq("id",id).select("id").maybeSingle();
+  if(error){msg("orderMsg-"+id,"Update failed: "+error.message,true);return;}
+  if(!data){msg("orderMsg-"+id,"No order updated. Check the admin UPDATE policy.",true);return;}
+  msg("orderMsg-"+id,"Order status saved.");
+}
+$("refreshOrdersBtn").addEventListener("click",loadOrders);
+
+async function loadCustomers(){
+  if(!currentUser||!(await verifyAdmin()))return;
+  $("customersList").textContent="Loading registered customers…";
+  const {data,error}=await db.functions.invoke("admin-customers",{body:{}});
+  if(error){
+    $("customersList").textContent=
+      "Could not load customers: "+error.message+
+      ". Deploy the secure admin-customers Edge Function and check its server-side admin verification.";
+    return;
+  }
+  const customers=Array.isArray(data)?data:data?.customers;
+  if(!Array.isArray(customers)){
+    $("customersList").textContent="Unexpected response from admin-customers.";
+    return;
+  }
+  if(!customers.length){
+    $("customersList").textContent="No registered customers found.";
+    return;
+  }
+  $("customersList").innerHTML=customers.map(c=>`
+    <div class="item">
+      <div class="item-main">
+        <strong>${html(c.email||"No email")}</strong>
+        <div class="hint">User ID: ${html(c.id||"")}</div>
+        <small>Registered: ${html(c.created_at?new Date(c.created_at).toLocaleString("en-IN"):"Unknown")}</small>
+      </div>
+    </div>`).join("");
+}
+$("refreshCustomersBtn").addEventListener("click",loadCustomers);
+
+  (async()=>{
+    if(await verifyAdmin()){
+      await loadProducts();
+    }
+  })();
+</script>
+</body>
+</html>
